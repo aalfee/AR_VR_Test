@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewelry AR/VR Experience</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <!-- VR View -->
+        <div id="vr-container">
+            <h1>Explore Our Jewelry in VR!</h1>
+            <canvas id="VR-window">
+                AR window
+            </canvas>
+        </div>
+        
+        <!-- AR View -->
+        <div id="ar-container">
+            <h1>Try Jewelry in Augmented Reality</h1>
+            <canvas id="AR-window"></canvas>
+        </div>
+    </div>
+
+    <script src="libs/three.min.js"></script>
+    <script src="libs/ar.js"></script>
+    <script type="module" src="app.js"></script>
+    <script type="module" src="app2.js"></script>
+</body>
+</html>
