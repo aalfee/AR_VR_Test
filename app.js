@@ -47,14 +47,45 @@ const pointLight2 = new THREE.PointLight(0x800080, 7, 13); // Bright point light
 pointLight2.position.set(-6, 2, 10);
 scene.add(pointLight2);
 
-//start of ar code 
-/*
-const arToolkitSource = new THREEx.ArToolkitSource({
-    sourceType: 'webcam',
-});
-*/
 
-const arToolkitSource = new THREEx.arToolkitSource({sourceType: 'webcam',});
+
+    const arToolkitSource = new THREEx.ArToolkitSource({
+        sourceType: 'webcam',
+    });
+    arToolkitSource.init(function onReady() {
+        onResize();
+    });
+
+    window.addEventListener('resize', function () {
+        onResize();
+    });
+
+    function onResize() {
+        arToolkitSource.onResize();
+        arToolkitSource.copySizeTo(renderer.domElement);
+        if (arToolkitContext.arController !== null) {
+            arToolkitSource.copySizeTo(arToolkitContext.arController.canvas);
+        }
+    }
+
+    const arToolkitContext = new THREEx.ArToolkitContext({
+        cameraParametersUrl: 'https://rawgit.com/jeromeetienne/AR.js/master/aframe/examples/marker-training/examples/camera_para.dat',
+        detectionMode: 'mono',
+        maxDetectionRate: 30,
+    });
+    arToolkitContext.init(function () {
+        camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+    });
+
+    const markerRoot = new THREE.Group();
+    scene.add(markerRoot);
+
+    // Add a marker to place the jewelry model
+    const marker = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+        type: 'pattern',
+        patternUrl: 'https://rawgit.com/jeromeetienne/AR.js/master/aframe/examples/marker-training/examples/pattern-hiro.patt',
+    });
+
 
 function animate() {
     requestAnimationFrame(animate);
@@ -164,22 +195,6 @@ function initAR() {
         patternUrl: 'https://rawgit.com/jeromeetienne/AR.js/master/aframe/examples/marker-training/examples/pattern-hiro.patt',
     });
 
-    // Load 3D model to place in AR
-    const loader = new THREE.OBJLoader();
-    loader.load('head.obj', function (object) {
-        markerRoot.add(object);
-    });
 
-    function animate() {
-        requestAnimationFrame(animate);
-        if (arToolkitSource.ready !== false) {
-            arToolkitContext.update(arToolkitSource.domElement);
-        }
-        renderer.render(scene, camera);
-    }
 
-    animate();
-}
-
-initAR();
 */
